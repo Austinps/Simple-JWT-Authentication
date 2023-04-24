@@ -5,7 +5,7 @@ import User from '../models/User.js';
 
 export const register = async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    const { username, email, password } = req.body;
 
     const user = await User.findOne({ email });
     if (user) {
@@ -16,16 +16,16 @@ export const register = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, salt);
 
     const newUser = new User({
-      name,
+      username,
       email,
       password: hashedPassword,
     });
 
     const token = newUser.generateAuthToken();
     await newUser.save();
-
+    req.user = newUser;
     res.cookie('token', token, { httpOnly: true });
-    res.redirect('/protected');
+    res.redirect('/user/dashboard');
   } catch (err) {
     console.error(err);
     res.status(500).send('Server error');
@@ -47,8 +47,9 @@ export const login = async (req, res) => {
     }
 
     const token = user.generateAuthToken();
+    req.user = user;
     res.cookie('token', token, { httpOnly: true });
-    res.redirect('/protected');
+    res.redirect('/user/dashboard');
   } catch (err) {
     console.error(err);
     res.status(500).send('Server error');

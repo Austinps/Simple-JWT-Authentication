@@ -1,12 +1,13 @@
 // app.js
 import express from 'express';
 import cookieParser from 'cookie-parser';
-import { authRoutes, userRoutes } from './routes';
-import { paths, viewEngine, bodyParser } from './config.js';
-
+import { authRoutes, userRoutes, homeRoutes } from './routes/index.js';
+import config from './config.js';
+import { isAuthenticated } from './middleware/auth.js';
 import { authenticate } from './middleware/auth.js';
 
 const app = express();
+const { paths, viewEngine, bodyParser } = config;
 
 app.use(express.static(paths.public));
 app.set('views', paths.views);
@@ -17,11 +18,8 @@ app.use(cookieParser());
 
 app.use(authenticate);
 
-app.use('/', (req, res) => {
-  res.render('index', { token: res.locals.token });
-});
-
+app.use('/', homeRoutes);
 app.use('/auth', authRoutes);
-app.use('/user', userRoutes);
+app.use('/user', isAuthenticated, userRoutes);
 
 export default app;
