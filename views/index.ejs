@@ -1,0 +1,26 @@
+<!-- views/index.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Welcome to My App</title>
+  </head>
+  <body>
+    <% if (token) { %>
+    <p>Welcome to the app! You are logged in.</p>
+    <ul>
+      <li><a href="/dashboard">Dashboard</a></li>
+      <li><a href="/profile">Profile</a></li>
+    </ul>
+    <% } else { %>
+    <p>Welcome to the app! Please log in or sign up.</p>
+    <ul>
+      <li><a href="/login">Log in</a></li>
+      <li><a href="/register">Sign up</a></li>
+    </ul>
+    <% } %>
+  </body>
+</html>
