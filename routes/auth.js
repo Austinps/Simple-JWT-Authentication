@@ -10,9 +10,10 @@ router.get('/register', renderRegister);
 router.post('/login', login);
 router.post('/register', register);
 
-router.post('/logout', (req, res) => {
+router.get('/logout', (req, res) => {
   res.clearCookie('token');
-  res.redirect('/auth/login');
+  req.user = null;
+  res.redirect('/');
 });
 
 export default router;

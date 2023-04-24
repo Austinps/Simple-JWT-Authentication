@@ -15,4 +15,9 @@ export default {
   bodyParser: {
     extended: true,
   },
+  cookieOptions: {
+    httpOnly: true,
+    sameSite: 'strict',
+    secure: process.env.NODE_ENV === 'production',
+  },
 };

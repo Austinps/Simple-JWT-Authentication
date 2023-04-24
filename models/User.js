@@ -1,7 +1,7 @@
 // models/User.js
 import mongoose from 'mongoose';
-import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import { comparePassword, hashPassword } from '../helpers/hashing.js';
 
 const userSchema = new mongoose.Schema({
   username: { type: String, required: true },
@@ -17,15 +17,12 @@ userSchema.methods.generateAuthToken = function () {
   return token;
 };
 
-// Hash password before saving to the database
 userSchema.pre('save', async function (next) {
   try {
-    // Only hash the password if it has been modified or is new
     if (!this.isModified('password')) {
       return next();
     }
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(this.password, salt);
+    const hashedPassword = await hashPassword(this.password);
     this.password = hashedPassword;
     return next();
   } catch (error) {
@@ -33,6 +30,9 @@ userSchema.pre('save', async function (next) {
   }
 });
 
-const User = mongoose.model('User', userSchema);
+userSchema.method('authenticate', async function (clearTextPassword) {
+  return await comparePassword(clearTextPassword, this.password);
+});
 
+const User = mongoose.model('User', userSchema);
 export default User;

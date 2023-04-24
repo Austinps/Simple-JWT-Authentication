@@ -2,38 +2,38 @@
 import jwt from 'jsonwebtoken';
 import User from '../models/User.js';
 
-export const isAuthenticated = (req, res, next) => {
+const decodeToken = async (req, res, next) => {
   const token = req.cookies.token;
   if (!token) {
-    return res.redirect('/auth/login');
+    return null;
   }
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded;
-    next();
-  } catch (err) {
-    console.error(err);
-    res.redirect('/auth/login');
-  }
-};
-
-export const authenticate = async (req, res, next) => {
-  try {
-    const token = req.cookies.token;
-    if (!token) {
-      return next();
-    }
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const user = await User.findById(decoded.userId);
     if (!user) {
-      return next();
+      return null;
     }
-    res.locals.token = token;
-    res.locals.user = user;
-    req.user = decoded;
-    next();
+    return { decoded, user };
   } catch (err) {
     console.error(err);
-    return next();
+    return null;
   }
+};
+
+export const isAuthenticated = async (req, res, next) => {
+  const decodedUser = await decodeToken(req, res, next);
+  if (!decodedUser) {
+    return res.redirect('/auth/login');
+  }
+  req.user = decodedUser.user;
+  next();
+};
+
+export const authenticate = async (req, res, next) => {
+  const decodedUser = await decodeToken(req, res, next);
+  if (decodedUser) {
+    res.locals.token = req.cookies.token;
+    res.locals.user = decodedUser.user;
+  }
+  next();
 };

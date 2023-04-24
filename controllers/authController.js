@@ -1,57 +1,67 @@
 // controllers/auth.js
-
-import bcrypt from 'bcrypt';
+import createError from 'http-errors';
 import User from '../models/User.js';
+import config from '../config.js';
+import { registerSchema, loginSchema } from '../helpers/validation.js';
 
 export const register = async (req, res) => {
   try {
-    const { username, email, password } = req.body;
-
-    const user = await User.findOne({ email });
-    if (user) {
-      return res.status(400).send('User already exists');
+    const { error: validationError, value: validatedData } =
+      registerSchema.validate(req.body);
+    if (validationError) {
+      return res.status(400).send(validationError.details[0].message);
     }
 
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
+    const { username, email, password } = validatedData;
+
+    const userExists = await User.findOne({ email });
+    if (userExists) {
+      return res.status(409).send('An account with this email already exists');
+    }
 
     const newUser = new User({
       username,
       email,
-      password: hashedPassword,
+      password,
     });
 
     const token = newUser.generateAuthToken();
     await newUser.save();
     req.user = newUser;
-    res.cookie('token', token, { httpOnly: true });
+    res.cookie('token', token, config.cookieOptions);
     res.redirect('/user/dashboard');
   } catch (err) {
     console.error(err);
-    res.status(500).send('Server error');
+    res.status(500).send('Something went wrong. Please try again later.');
   }
 };
 
 export const login = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { error: validationError, value: validatedData } =
+      loginSchema.validate(req.body);
+    if (validationError) {
+      return res.status(400).send(validationError.details[0].message);
+    }
 
-    const user = await User.findOne({ email });
-    if (!user) {
+    const { email, password } = validatedData;
+
+    const userToLogin = await User.findOne({ email });
+    if (!userToLogin) {
       return res.status(400).send('Invalid credentials');
     }
 
-    const validPassword = await bcrypt.compare(password, user.password);
-    if (!validPassword) {
-      return res.status(400).send('Invalid credentials');
+    const doPasswordsMatch = await userToLogin.authenticate(password);
+    if (!doPasswordsMatch) {
+      throw new createError.Unauthorized('Invalid email or password');
     }
 
-    const token = user.generateAuthToken();
-    req.user = user;
-    res.cookie('token', token, { httpOnly: true });
+    const token = userToLogin.generateAuthToken();
+    req.user = userToLogin;
+    res.cookie('token', token, config.cookieOptions);
     res.redirect('/user/dashboard');
   } catch (err) {
     console.error(err);
-    res.status(500).send('Server error');
+    res.status(500).send('Something went wrong. Please try again later.');
   }
 };
