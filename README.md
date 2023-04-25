@@ -1,6 +1,6 @@
 # Simple JWT Authentication
 
-This is a simple Node.js project that demonstrates how to implement JSON Web Tokens (JWT) for authentication in an Express.js web application. 
+This is a simple Node.js project that demonstrates how to implement JSON Web Tokens (JWT) for authentication in an Express.js web application.
 
 ## Installation
 
@@ -28,7 +28,6 @@ This is a simple Node.js project that demonstrates how to implement JSON Web Tok
 - JSON Web Tokens (JWT) for authentication
 - bcrypt for password hashing
 - Helmet for HTTP security headers
-- CSURF for CSRF protection
 
 ## License
 
