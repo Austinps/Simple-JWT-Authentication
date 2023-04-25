@@ -5,8 +5,10 @@
     <h1>User Profile</h1>
     <%- include('partials/user-links') %>
     <p>
-      This is the user profile page. You can see and edit your account
-      information here.
+      Username: <%= user.username %>
+      <a href="/user/edit-profile"><i class="fa fa-pencil"></i></a>
     </p>
+    <p>Email: <%= user.email %></p>
+    <p>Account created on: <%= user.createdAt.toLocaleString() %></p>
   </body>
 </html>

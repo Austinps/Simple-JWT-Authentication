@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <%- include('partials/head', { title: 'Edit Profile' }) %>
+  <body>
+    <h2>Edit User Profile</h2>
+    <%- include('partials/user-links') %>
+    <form method="POST" action="/user/<%= user._id %>/update-profile">
+      <label for="username">Username:</label>
+      <input
+        type="text"
+        id="username"
+        name="username"
+        value="<%= user.username %>"
+      /><br /><br />
+      <label for="email">Email:</label>
+      <input
+        type="email"
+        id="email"
+        name="email"
+        value="<%= user.email %>"
+      /><br /><br />
+      <br /><br />
+      <button type="submit">Save</button>
+    </form>
+    <h2>Edit User Password</h2>
+    <form method="POST" action="/user/<%= user._id %>/update-password">
+      <label for="password">New Password:</label>
+      <input
+        type="password"
+        id="password"
+        name="password"
+        value=""
+      /><br /><br />
+      <label for="confirmPassword">Confirm New Password:</label>
+      <input
+        type="password"
+        id="confirmPassword"
+        name="confirmPassword"
+        value=""
+      /><br /><br />
+      <% if (typeof password !== 'undefined' && typeof confirmPassword !==
+      'undefined') { %> <% if (password === '' && confirmPassword === '') { %>
+      <button type="submit">Save</button>
+      <% } else if (password === confirmPassword) { %>
+      <button type="submit">Save</button>
+      <% } else { %>
+      <p>Passwords do not match</p>
+      <% } %> <% } else { %>
+      <button type="submit">Save</button>
+      <% } %>
+    </form>
+  </body>
+</html>

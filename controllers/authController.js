@@ -4,7 +4,7 @@ import User from '../models/User.js';
 import config from '../config.js';
 import { registerSchema, loginSchema } from '../helpers/validation.js';
 
-export const register = async (req, res) => {
+export const register = async (req, res, next) => {
   try {
     const { error: validationError, value: validatedData } =
       registerSchema.validate(req.body);
@@ -31,12 +31,11 @@ export const register = async (req, res) => {
     res.cookie('token', token, config.cookieOptions);
     res.redirect('/user/dashboard');
   } catch (err) {
-    console.error(err);
-    res.status(500).send('Something went wrong. Please try again later.');
+    next(err);
   }
 };
 
-export const login = async (req, res) => {
+export const login = async (req, res, next) => {
   try {
     const { error: validationError, value: validatedData } =
       loginSchema.validate(req.body);
@@ -61,7 +60,6 @@ export const login = async (req, res) => {
     res.cookie('token', token, config.cookieOptions);
     res.redirect('/user/dashboard');
   } catch (err) {
-    console.error(err);
-    res.status(500).send('Something went wrong. Please try again later.');
+    next(err);
   }
 };
