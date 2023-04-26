@@ -1,5 +1,5 @@
 {
-  "name": "simple-jwt",
+  "name": "simple-jwt-authentication",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -9,15 +9,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Austinps/simple-jwt.git"
+    "url": "git+https://github.com/Austinps/simple-jwt-authentication.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Austinps/simple-jwt/issues"
+    "url": "https://github.com/Austinps/simple-jwt-authentication/issues"
   },
-  "homepage": "https://github.com/Austinps/simple-jwt#readme",
+  "homepage": "https://github.com/Austinps/simple-jwt-authentication#readme",
   "dependencies": {
     "bcrypt": "^5.1.0",
     "cookie-parser": "^1.4.6",
