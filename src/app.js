@@ -3,7 +3,7 @@ import express from 'express';
 import cookieParser from 'cookie-parser';
 import helmet from 'helmet';
 import { authRoutes, userRoutes, homeRoutes } from './routes/index.js';
-import config from './config.js';
+import config from './config/config.js';
 import { isAuthenticated } from './middleware/auth.js';
 import { authenticate } from './middleware/auth.js';
 import { errorHandler } from './middleware/errorHandler.js';

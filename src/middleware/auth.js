@@ -22,9 +22,9 @@ const decodeToken = async (req, res, next) => {
 
 export const isAuthenticated = async (req, res, next) => {
   const decodedUser = await decodeToken(req, res, next);
-  if (!decodedUser) {
-    return res.redirect('/auth/login');
-  }
+
+  if (!decodedUser) return res.redirect('/auth/login');
+
   req.user = decodedUser.user;
   next();
 };
