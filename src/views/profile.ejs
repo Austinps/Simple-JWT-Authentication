@@ -1,14 +1,15 @@
+<!-- views/profile.ejs -->
+
 <!DOCTYPE html>
 <html>
   <%- include('partials/head', { title: 'Profile' }) %>
   <body>
-    <h1>User Profile</h1>
+    <h1>Welcome to your profile, <%= user.username %>!</h1>
     <%- include('partials/user-links') %>
-    <p>
-      Username: <%= user.username %>
-      <a href="/user/edit-profile"><i class="fa fa-pencil"></i></a>
-    </p>
+    <h2>Your profile information</h2>
+    <p>Username: <%= user.username %></p>
     <p>Email: <%= user.email %></p>
     <p>Account created on: <%= user.createdAt.toLocaleString() %></p>
+    <a href="/user/edit-profile">Edit profile <i class="fa fa-pencil"></i></a>
   </body>
 </html>

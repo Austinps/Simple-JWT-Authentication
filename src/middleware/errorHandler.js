@@ -9,7 +9,6 @@ export const authLinks = [
 
 export const userLinks = [
   { href: '/', text: 'Home' },
-  { href: '/user/dashboard', text: 'Dashboard' },
   { href: '/user/profile', text: 'Profile' },
   { href: '/auth/logout', text: 'Log out' },
 ];

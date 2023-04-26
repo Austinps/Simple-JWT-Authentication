@@ -1,23 +1,18 @@
 // controllers/viewController.js
 
-export const renderLogin = (_, res, next) => {
+export const renderLogin = (req, res, next) => {
   try {
-    res.render('login', { error: null });
-  } catch (err) {
-    next(err);
-  }
-};
-export const renderRegister = (_, res, next) => {
-  try {
-    res.render('register', { error: null });
+    const error = req.query.error || null; // get the error message from the query string
+    res.render('login', { error });
   } catch (err) {
     next(err);
   }
 };
 
-export const renderDashboard = (req, res, next) => {
+export const renderRegister = (req, res, next) => {
   try {
-    res.render('dashboard', { error: null, username: req.user.username });
+    const error = req.query.error || null; // get the error message from the query string
+    res.render('register', { error });
   } catch (err) {
     next(err);
   }

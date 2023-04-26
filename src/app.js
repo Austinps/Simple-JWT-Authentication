@@ -26,6 +26,10 @@ app.use('/', homeRoutes);
 app.use('/auth', authRoutes);
 app.use('/user', isAuthenticated, userRoutes);
 
+app.use((_, res) => {
+  res.status(404).render('404');
+});
+
 app.use(errorHandler);
 
 export default app;

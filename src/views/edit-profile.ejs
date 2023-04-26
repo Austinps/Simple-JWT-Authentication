@@ -1,9 +1,12 @@
+<!-- views/edit-profile.ejs -->
+
 <!DOCTYPE html>
 <html>
   <%- include('partials/head', { title: 'Edit Profile' }) %>
   <body>
-    <h2>Edit User Profile</h2>
+    <h2>Edit User Details</h2>
     <%- include('partials/user-links') %>
+
     <form method="POST" action="/user/<%= user._id %>/update-profile">
       <label for="username">Username:</label>
       <input
@@ -20,9 +23,10 @@
         value="<%= user.email %>"
       /><br /><br />
       <br /><br />
-      <button type="submit">Save</button>
+      <button class="button" type="submit">Save</button>
     </form>
-    <h2>Edit User Password</h2>
+
+    <h2>Edit Password</h2>
     <form method="POST" action="/user/<%= user._id %>/update-password">
       <label for="password">New Password:</label>
       <input
@@ -46,7 +50,7 @@
       <% } else { %>
       <p>Passwords do not match</p>
       <% } %> <% } else { %>
-      <button type="submit">Save</button>
+      <button class="button" type="submit">Save</button>
       <% } %>
     </form>
   </body>
