@@ -1,5 +1,5 @@
 // controllers/auth.js
-import createError from 'http-errors';
+// import createError from 'http-errors';
 import User from '../models/User.js';
 import config from '../config/config.js';
 import { registerSchema, loginSchema } from '../helpers/validation.js';

@@ -3,6 +3,7 @@
 export const renderLogin = (req, res, next) => {
   try {
     const error = req.query.error || null; // get the error message from the query string
+    console.log('error');
     res.render('login', { error });
   } catch (err) {
     next(err);
