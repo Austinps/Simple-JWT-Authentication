@@ -32,7 +32,3 @@ This is a simple Node.js project that demonstrates how to implement JSON Web Tok
 ## License
 
 This project is licensed under the ISC License - see the [LICENSE](LICENSE) file for details.
-
-## Contributing
-
-Contributions are always welcome! If you would like to contribute to this project, please create a pull request.
